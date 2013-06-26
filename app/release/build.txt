@@ -1,5 +1,4 @@
 
-main.js
+app/main.js
 ----------------
-jquery.js
-main.js
+app/main.js

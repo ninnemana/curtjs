@@ -1,0 +1,1 @@
+beforeEach(function(){this.addMatchers({toBeArray:function(e){return Object.prototype.toString.call(this.actual)==="[object Array]"?!0:!1}}),this.addMatchers({toBeNumber:function(e){return/\d+/.test(this.actual)}}),this.addMatchers({toBeNaN:function(e){return isNaN(this.actual)}})});

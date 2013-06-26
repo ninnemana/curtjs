@@ -15,13 +15,11 @@ module.exports = function(grunt){
 			npm install grunt-contrib-jshint --save-dev
 			npm install grunt-contrib-uglify --save-dev
 			npm install grunt-contrib-concat --save-dev
-			npm install grunt-contrib-requirejs --save-dev
 			npm install grunt-contrib-sass --save-dev
 			npm install grunt-contrib-imagemin --save-dev
 			npm install grunt-contrib-htmlmin --save-dev
 			npm install grunt-contrib-connect --save-dev
 			npm install grunt-contrib-jasmine --save-dev
-			npm install grunt-template-jasmine-requirejs --save-dev
 	*/
 
 	// Project configuration.
@@ -36,7 +34,7 @@ module.exports = function(grunt){
 			dist:{
 				options:{
 					style:'compressed',
-					require:['./assets/styles/scss/helpers/url64.rb']
+					require:['./app/styles/scss/helpers/url64.rb']
 				},
 				expand: true,
 				cwd: './app/styles/scss',
@@ -58,30 +56,11 @@ module.exports = function(grunt){
 				ext: '.css'
 			}
 		},
-		requirejs: {
-			compile: {
-				options: {
-					baseUrl: './app',
-					mainConfigFile: './app/main.js',
-					dir: './app/release/',
-					fileExclusionRegExp: /^\.|node_modules|Gruntfile|\.md|package.json/,
-					// optimize: 'none',
-					modules: [
-						{
-							name: 'main'
-							// include: ['module'],
-							// exclude: ['module']
-						}
-					]
-				}
-			}
-		},
-
 		// Used to connect to a locally running web server
 		// (so Jasmine can test against a DOM)
 		connect:{
 			test:{
-				port:8000
+				port:0
 			}
 		},
 		jasmine: {
@@ -94,14 +73,11 @@ module.exports = function(grunt){
 			options: {
 				host: 'http://127.0.0.1:8000/',
 				specs: 'specs/**/*Spec.js',
-				helpers: ['specs/helpers/*Helper.js', 'specs/helpers/sinon.js'],
-				template: require('grunt-template-jasmine-requirejs'),
-				templateOptions: {
-					requireConfig: {
-						baseUrl: './',
-						mainConfigFile: 'app/main.js'
-					}
-				}
+				keepRunner: true,
+				vendor:[
+					'lib/jquery.js'
+				],
+				helpers: ['specs/helpers/*Helper.js', 'specs/helpers/sinon.js']
 			}
 		},
 
@@ -227,28 +203,26 @@ module.exports = function(grunt){
 		// Run: `grunt watch` from command line for this section to take effec
 		watch:{
 			files:['<%= jshint.files %>','<%= jasmine.options.specs %>'],
-			tasks: 'default'
+			tasks:'test'
 		}
 	});
 
 	// Load NPM Tasks
-	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-requirejs');
-	grunt.loadNpmTasks('grunt-contrib-sass');
-	grunt.loadNpmTasks('grunt-contrib-imagemin');
-	grunt.loadNpmTasks('grunt-contrib-htmlmin');
-	grunt.loadNpmTasks('grunt-contrib-connect');
-	grunt.loadNpmTasks('grunt-contrib-jasmine');
+	// Loading dependencies
+	for (var key in grunt.file.readJSON("package.json").devDependencies) {
+		if (key !== "grunt" && key.indexOf("grunt") === 0) {
+			grunt.loadNpmTasks(key);
+		}
+	}
+
+	grunt.registerTask('dev',['connect','watch']);
 
 	// Default Task
-	grunt.registerTask('default', ['jshint', 'connect', 'jasmine', 'sass:dev']);
+	grunt.registerTask('default', ['jshint', 'connect', 'jasmine']);
 
 	// Unit Testing Task
 	grunt.registerTask('test', ['connect', 'jasmine']);
 
 	// Release Task
-	grunt.registerTask('release', ['jshint', 'connect', 'jasmine', 'requirejs', 'sass:dist', 'imagemin', 'htmlmin', 'concat','uglify']);
+	grunt.registerTask('release', ['jshint', 'connect', 'jasmine', 'sass:dist', 'imagemin', 'htmlmin', 'concat','uglify']);
 };

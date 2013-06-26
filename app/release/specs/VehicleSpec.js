@@ -1,0 +1,1 @@
+describe("Vehicle",function(){it("should pass a single assertion without causing an error",function(){var e=new window.CurtVehicle;e.get_years(function(e,t){console.info(e),expect(e).toBeDefined()})})});
