@@ -1,9 +1,9 @@
 var API_DOMAIN = 'http://goapi.curtmfg.com',
 	API_KEY    = '8aee0620-412e-47fc-900a-947820ea1c1d';
 
+$.support.cors = true;
 
 window.CurtVehicle = function(){
-	$.support.cors = true;
 
 	function CurtVehicle(){
 
@@ -165,4 +165,37 @@ window.CurtVehicle = function(){
 
 	
 	return vehicle;
+};
+
+window.CurtPart = function(){
+    
+    function CurtPart(){
+        
+    }
+    
+    var part = {
+        PartId: 0,
+        Status:0,
+        PriceCode: 0,
+        RelatedCount:0,
+        AverageReview: 0,
+        DateModified: '',
+        DateAdded: '',
+        ShortDesc: '',
+        PartClass: '',
+        InstallSheet: {},
+        Attributes: [],
+        VehicleAttributes: [],
+        Content: [],
+        Pricing: [],
+        Reviews: [],
+        Images: [],
+        Related: [],
+        Categories: [],
+        Videos: [],
+        Packages: [],
+        Customer: {}
+    };
+    
+    return part;
 };
