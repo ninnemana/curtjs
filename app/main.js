@@ -238,7 +238,7 @@ window.CurtPart = function(){
         get_vehicles: function(callback){
             // Execute AJAX
             $.ajax({
-    			url: API_DOMAIN + '/part/' + this.PartId + '/vehicles',
+                url: API_DOMAIN + '/part/' + this.PartId + '/vehicles',
 				type: 'get',
 				dataType: 'json',
 				data:{
@@ -249,7 +249,7 @@ window.CurtPart = function(){
                         var vehicles = [];
                         
                         for(var i = 0; i < data.length; i++){
-                            var vehicle = new CurtVehicle();
+                            var vehicle = new window.CurtVehicle();
                             vehicle.year = data[i].Year;
                             vehicle.make = data[i].Make;
                             vehicle.model = data[i].Model;
@@ -260,7 +260,7 @@ window.CurtPart = function(){
                         
                         callback(vehicles,null);
                     }else{
-					    callback([],null);
+                        callback([],null);
                     }
 				},
 				error: function(xhr, status, err){
