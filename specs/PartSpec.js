@@ -10,4 +10,13 @@ describe('Part',function(){
 			expect(err).not.toBeDefined();
 		});
 	});
+    
+    it('should retrieve the vehicles that match part 15062', function(){
+        part.PartId = 15062;
+        
+        part.get_vehicles(function(vehicles,err){
+           expect(vehicles).toBeDefined();
+           expect(err).not.toBeDefined();
+        });
+    });
 });

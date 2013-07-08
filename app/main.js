@@ -234,6 +234,39 @@ window.CurtPart = function(){
 					callback(err);
 				}
 			});
+        },
+        get_vehicles: function(callback){
+            // Execute AJAX
+            $.ajax({
+    			url: API_DOMAIN + '/part/' + this.PartId + '/vehicles',
+				type: 'get',
+				dataType: 'json',
+				data:{
+					key: API_KEY
+				},
+				success: function(data, status, xhr){
+                    if(status === 200){
+                        var vehicles = [];
+                        
+                        for(var i = 0; i < data.length; i++){
+                            var vehicle = new CurtVehicle();
+                            vehicle.year = data[i].Year;
+                            vehicle.make = data[i].Make;
+                            vehicle.model = data[i].Model;
+                            vehicle.submodel = data[i].Submodel;
+                            vehicle.configuration = data[i].Configuration;
+                            vehicles.push(vehicle);
+                        }
+                        
+                        callback(vehicles,null);
+                    }else{
+					    callback([],null);
+                    }
+				},
+				error: function(xhr, status, err){
+					callback([],err);
+				}
+			});
         }
     };
     
