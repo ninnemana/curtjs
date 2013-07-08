@@ -194,7 +194,47 @@ window.CurtPart = function(){
         Categories: [],
         Videos: [],
         Packages: [],
-        Customer: {}
+        Customer: {},
+        get: function(callback){
+            // Execute AJAX
+            $.ajax({
+				url: API_DOMAIN + '/part/' + this.PartId,
+				type: 'get',
+				dataType: 'json',
+				data:{
+					key: API_KEY
+				},
+				success: function(data, status, xhr){
+                    if(status === 200 && data.PartId !== undefined && data.PartId > 0){
+                        this.PartId = data.PartId;
+                        this.Status = data.Status;
+                        this.PriceCode = data.PriceCode;
+                        this.RelatedCount = data.RelatedCount;
+                        this.AverageReview = data.AverageReview;
+                        this.DateModified = new Date(Date.parse(data.DateModified));
+                        this.DateAdded = new Date(Date.parse(data.DateAdded));
+                        this.ShortDesc = data.ShortDesc;
+                        this.PartClass = data.PartClass;
+                        this.InstallSheet = data.InstallSheet;
+                        this.Attributes = data.Attributes;
+                        this.VehicleAttributes = data.VehicleAttributes;
+                        this.Content = data.Content;
+                        this.Pricing = data.Pricing;
+                        this.Reviews = data.Reviews;
+                        this.Images = data.Images;
+                        this.Related = data.Related;
+                        this.Categories = data.Categories;
+                        this.Videos = data.Videos;
+                        this.Packages = data.Packages;
+                        this.Customer = data.Customer;
+                    }
+					callback(null);
+				},
+				error: function(xhr, status, err){
+					callback(err);
+				}
+			});
+        }
     };
     
     return part;

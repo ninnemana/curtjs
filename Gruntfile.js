@@ -28,7 +28,6 @@ module.exports = function(grunt){
 		// Store your Package file so you can reference its specific data whenever necessary
 		pkg: grunt.file.readJSON('package.json'),
 
-
 		// Task Delegation
 		sass:{
 			dist:{
@@ -59,9 +58,18 @@ module.exports = function(grunt){
 		// Used to connect to a locally running web server
 		// (so Jasmine can test against a DOM)
 		connect:{
-			test:{
-				port:0
-			}
+            server: {
+              options: {
+                port: process.env.PORT,
+                hostname: process.env.IP
+              }
+            },
+			// test:{
+   //              options: {
+   //                  port: process.env.PORT,
+   //                  hostname: process.env.IP
+   //              }
+			// }
 		},
 		jasmine: {
 			/*
