@@ -245,7 +245,7 @@ window.CurtPart = function(){
 					key: API_KEY
 				},
 				success: function(data, status, xhr){
-                    if(status === 200){
+                    if(status === "success"){
                         var vehicles = [];
                         
                         for(var i = 0; i < data.length; i++){
